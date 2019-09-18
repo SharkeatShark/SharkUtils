@@ -5,6 +5,11 @@ import com.shark.encrypt.MD5;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.security.SecureRandom;
 import java.sql.Clob;
 import java.sql.SQLException;
@@ -12,6 +17,8 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.bouncycastle.asn1.x509.X509Name.DC;
 
@@ -29,6 +36,8 @@ public class StrUtil {
      * 根据系统返回换行符
      */
     private static String lineSeparator = System.getProperty("line.separator", "/n");
+
+    private static char[] srcKey = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,%_:".toCharArray();
 
     static Random random = new SecureRandom();
 
@@ -578,6 +587,31 @@ public class StrUtil {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * 字符url转码，排序后再返回排序后的内容
+     * @param str
+     * @return
+     */
+    public static String urlEnSort(String str){
+        StringBuffer result = new StringBuffer();
+        try {
+            str = URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return "";
+        }
+        Stream<Character> strStream = str.chars().mapToObj(i -> (char) i);
+        strStream.forEach(i ->{
+            for (int j = 0; j < srcKey.length; j++) {
+                if (i.charValue() == srcKey[j]){
+                    result.append(j < 10 ? "0" + j : j);
+                    break;
+                }
+            }
+        });
+        return result.toString();
     }
 
     @Test
