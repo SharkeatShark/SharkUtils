@@ -37,7 +37,7 @@ public class StrUtil {
      */
     private static String lineSeparator = System.getProperty("line.separator", "/n");
 
-    private static char[] srcKey = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,%_:".toCharArray();
+    private static char[] srcKey = "j6VWXYZkDEFl4abfghi7mn89opqrstu50vwxyzABC3GHIJK67LMNO12PQRcdeSTU,%_:".toCharArray();
 
     static Random random = new SecureRandom();
 
